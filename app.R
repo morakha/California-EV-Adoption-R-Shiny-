@@ -66,24 +66,29 @@ server <- function(input,output) {
   })
   output$makeup <- renderPlotly({
     if ((input$type == zcc[1])&(input$figure == out[2])) {
-      plot_ly(x=as.numeric(sub("%","",county[['Gasoline.1']])),y=as.character(county[['County']]),name='Gasoline %',type='bar', orientation = 'h',height=1000) %>%
+      plot_ly(x=as.numeric(sub("%","",county[['Gasoline.1']])),y=as.character(county[['County']]),name='Gasoline %',type='bar', orientation = 'h',height=600) %>%
         add_trace(x=as.numeric(sub("%","",county[['X.BEV.PEV']])),name= 'BEV-PEV %') %>%
         add_trace(x=as.numeric(sub("%","",county[['Diesel.1']])),name= 'Diesel %') %>%
         add_trace(x=as.numeric(sub("%","",county[['Hybrid.Gas.1']])),name= 'Hybrid Gas %') %>%
         add_trace(x=as.numeric(sub("%","",county[['Ethanol.1']])),name= 'Ethanol %') %>%
         add_trace(x=as.numeric(sub("%","",county[['Diesel.Hybrid.1']]))+as.numeric(sub("%","",county[['Fuel.Cell.1']]))+as.numeric(sub("%","",county[['Butane.1']]))+as.numeric(sub("%","",county[['Compressed.Natural.Gas.1']]))+as.numeric(sub("%","",county[['Propane.1']]))+as.numeric(sub("%","",county[['Diesel.Hybrid.1']]))+as.numeric(sub("%","",county[['Methanol.1']]))+as.numeric(sub("%","",county[['Methane.1']])),name= 'Other %') %>%
-        layout(barmode = 'stack')
+        layout(barmode = 'stack',yaxis = list(range = c(0,25)),dragmode='pan')
     } else if ((input$type == zcc[2])&(input$figure == out[2])) {
-      plot_ly(x=as.numeric(sub("%","",city[['Gasoline.1']])),y=as.character(city[['City']]),name='Gasoline %',type='bar', orientation = 'h',height=1000) %>%
+      plot_ly(x=as.numeric(sub("%","",city[['Gasoline.1']])),y=as.character(city[['City']]),name='Gasoline %',type='bar', orientation = 'h',height=600) %>%
         add_trace(x=as.numeric(sub("%","",city[['X.BEV.PEV']])),name= 'BEV-PEV %') %>%
         add_trace(x=as.numeric(sub("%","",city[['Diesel.1']])),name= 'Diesel %') %>%
         add_trace(x=as.numeric(sub("%","",city[['Hybrid.Gas.1']])),name= 'Hybrid Gas %') %>%
         add_trace(x=as.numeric(sub("%","",city[['Ethanol.1']])),name= 'Ethanol %') %>%
         add_trace(x=as.numeric(sub("%","",city[['Diesel.Hybrid.1']]))+as.numeric(sub("%","",city[['Fuel.Cell.1']]))+as.numeric(sub("%","",city[['Butane.1']]))+as.numeric(sub("%","",city[['Compressed.Natural.Gas.1']]))+as.numeric(sub("%","",city[['Propane.1']]))+as.numeric(sub("%","",city[['Diesel.Hybrid.1']]))+as.numeric(sub("%","",city[['Methanol.1']]))+as.numeric(sub("%","",city[['Methane.1']])),name= 'Other %') %>%
-        layout(barmode = 'stack',xaxis=list(range = c(0, 100)))
+        layout(barmode = 'stack',xaxis=list(range = c(0, 100)),yaxis = list(range = c(0,25)),dragmode='pan')
     } else if ((input$type == zcc[3])&(input$figure == out[2])) {
-      plot_ly(x=zip[[23]],y=(100*(zipB+zipP)/zipG),type='scatter',mode='markers',color = I("darkolivegreen3"),text = zip[[4]]) %>%
-        layout(yaxis = list(range = c(0, 7)))
+      plot_ly(x=100*as.numeric(zip[['Gasoline']])/as.numeric(zip[['Grand.Total']]),y=zip[['Geo_ZCTA5']],name='Gasoline %',type='bar', orientation = 'h',height=600) %>%
+        add_trace(x=100*(as.numeric(zip[['Battey.Electric']])+as.numeric(zip[['Plug.in.Hybrid']]))/as.numeric(zip[['Grand.Total']]),name= 'BEV-PEV %') %>%
+        add_trace(x=100*as.numeric(zip[['Diesel']])/as.numeric(zip[['Grand.Total']]),name= 'Diesel %') %>%
+        add_trace(x=100*as.numeric(zip[['Hybrid.Gas']])/as.numeric(zip[['Grand.Total']]),name= 'Hybrid Gas %') %>%
+        add_trace(x=100*as.numeric(zip[['Ethanol']])/as.numeric(zip[['Grand.Total']]),name= 'Ethanol %') %>%
+        add_trace(x=100*(as.numeric(zip[['Diesel.Hybrid']])+as.numeric(zip[['Fuel.Cell']])+as.numeric(zip[['Butane']])+as.numeric(zip[['Compressed.Natural.Gas']])+as.numeric(zip[['Propane']])+as.numeric(zip[['Diesel.Hybrid']])+as.numeric(zip[['Methanol']])+as.numeric(zip[['Methane']]))/as.numeric(zip[['Grand.Total']]),name= 'Other %') %>%
+        layout(barmode = 'stack',xaxis=list(range = c(0, 100)),yaxis = list(range = c(0,25)),dragmode='pan')
     }
   })
   output$income <- renderPlotly({
